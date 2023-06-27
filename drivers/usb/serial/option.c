@@ -347,6 +347,12 @@ static void option_instat_callback(struct urb *urb);
 #define ALINK_PRODUCT_PH300			0x9100
 #define ALINK_PRODUCT_3GU			0x9200
 
+/* LONGCHEER PRODUCTS */
+#define LONGCHEER_VENDOR_ID			0x1c9e
+#define LONGSUNG_VENDOR_ID			0x1c9e
+#define LONGSUNG_U9300_PRODUCT_ID		0x9b3c
+
+
 /* ALCATEL PRODUCTS */
 #define ALCATEL_VENDOR_ID			0x1bbb
 #define ALCATEL_PRODUCT_X060S_X200		0x0000
