@@ -64,7 +64,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	vcc5v0_otg0: vcc5v0-otg0-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <0x30 0x00 0x00>;
+		gpio = <&gpio1 RK_PA0 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&otg0_vbus_drv>;
 		regulator-name = "vcc5v0_otg0";
@@ -76,7 +76,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	vcc5v0_otg1: vcc5v0-otg1-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <0x37 0x1d 0x00>;
+		gpio = <&gpio4 RK_PD5 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&otg1_vbus_drv>;
 		regulator-name = "vcc5v0_otg1";
@@ -88,7 +88,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	vcc5v0_host0: vcc5v0-host0-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <0x37 0x1a 0x00>;
+		gpio = <&gpio4 RK_PD2 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&host0_vbus_drv>;
 		regulator-name = "vcc5v0_host0";
@@ -100,7 +100,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	vcc5v0_host1: vcc5v0-host1-regulator {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <0x18 0x1e 0x00>;
+		gpio = <&gpio3 RK_PD6 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&host1_vbus_drv>;
 		regulator-name = "vcc5v0_host1";
@@ -112,9 +112,9 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	vcc_4g: vcc-4g {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <0xce 0x02 0x00>;
+		gpio = <&gpio0 RK_PA2 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
-		pinctrl-0 = <0xcf>;
+		pinctrl-0 = <&vcc_4g_gpio>;
 		regulator-name = "vcc_4g";
 		regulator-always-on;
 		regulator-boot-on;
@@ -125,9 +125,9 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	vcc_wifi: vcc-wifi {
 		compatible = "regulator-fixed";
 		enable-active-high;
-		gpio = <0xce 0x03 0x00>;
+		gpio = <&gpio0 RK_PA3 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
-		pinctrl-0 = <0xd1>;
+		pinctrl-0 = <&wifi_pwr_gpio>;
 		regulator-name = "vcc_wifi";
 		regulator-always-on;
 		regulator-min-microvolt = <3300000>;
@@ -222,7 +222,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	leds {
 		compatible = "gpio-leds";
 		power5v-led {
-			gpios = <0x30 0x17 0x00>;
+			gpios = <&gpio0 23 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 			label = "power_5v_run";
 		};
@@ -231,15 +231,15 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	wesine-gpio {
 		compatible = "wesine,rk3399-gpio";
 		pinctrl-names = "default";
-		pinctrl-0 = <0xc6 0xc7 0xc8>;
-		usb1_en = <0x37 0x1c 0x00>;
-		usb2_en = <0x30 0x03 0x00>;
-		usb3_en = <0x37 0x1e 0x00>;
-		usb4_en = <0x37 0x15 0x00>;
-		usb5_en = <0x37 0x18 0x00>;
-		usb6_en = <0x30 0x02 0x00>;
-		wk2_rst = <0x83 0x12 0x01>;
-		gprs_rst = <0x30 0x04 0x01>;
+		pinctrl-0 = <&wesine_pin1_gpio &wesine_pin2_gpio &wesine_pin4_gpio>;
+		usb1_en = <&wesine_pin4_gpio 28 GPIO_ACTIVE_HIGH>;
+		usb2_en = <&wesine_pin1_gpio 3 GPIO_ACTIVE_HIGH>;
+		usb3_en = <&wesine_pin4_gpio 30 GPIO_ACTIVE_HIGH>;
+		usb4_en = <&wesine_pin4_gpio 21 GPIO_ACTIVE_HIGH>;
+		usb5_en = <&wesine_pin4_gpio 24 GPIO_ACTIVE_HIGH>;
+		usb6_en = <&wesine_pin1_gpio 2 GPIO_ACTIVE_HIGH>;
+		wk2_rst = <&wesine_pin2_gpio 18 GPIO_ACTIVE_LOW>;
+		gprs_rst = <&wesine_pin1_gpio 4 GPIO_ACTIVE_LOW>;
 		status = "okay";
 	};
 
@@ -284,7 +284,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 };
 
 &i2s0 {
-	status = "okay";
+	status = "disabled";
 	rockchip,i2s-broken-burst-len;
 	rockchip,playback-channels = <8>;
 	rockchip,capture-channels = <8>;
@@ -532,10 +532,10 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	i2c-scl-rising-time-ns = <300>;
 	i2c-scl-falling-time-ns = <15>;
 
-	es8316: es8316@11 {
+	es8316: es8316@10 {
 		#sound-dai-cells = <0>;
 		compatible = "everest,es8316";
-		reg = <0x11>;
+		reg = <0x10>;
 		clocks = <&cru SCLK_I2S_8CH_OUT>;
 		clock-names = "mclk";
 		pinctrl-names = "default";
@@ -569,28 +569,41 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 };
 
 &i2c8 {
-	status = "okay";
+	status = "disabled";
+	//pinctrl-names = "default";
+	//pinctrl-0 = <0x7e>;
+
+	ilitek@41 {
+			compatible = "tchip,ilitek";
+			reg = <0x41>;
+			vdd-supply = <0x7f>;
+			vcc_i2c-supply = <0x34>;
+			ilitek,irq-gpio = <0x30 18 GPIO_ACTIVE_HIGH>;
+			ilitek,reset-gpio = <0x30 24 GPIO_ACTIVE_HIGH>;
+			ilitek,vbus = "vcc_i2c";
+			ilitek,vdd = "vdd";
+			ilitek,name = "ilitek_i2c";
+		};
 };
 
 &spi1 {
-	status = "okay";
+	status = "disabled";
 	max-freq = <48000000>;
 	dev-port = <0>;
-	pinctrl-0 = <0x4c>;
+	//pinctrl-0 = <&spi1m2_pins>;
 	num-cs = <1>;
 
 	spi_wk2xxx: spi_wk2xxx@00{
-		status = "okay";
-		compatible = "wesine,spi-wk2xxx";
+		status = "disabled";
+		compatible = "wesine,wk2124spi";
 		reg = <0x00>;
+		poll_mode = <0x00>;
+		type = <0x00>;
+		enable_dma = <0x00>;
 		spi-max-frequency = <10000000>;
-		//power-gpio = <&gpio2 4 GPIO_ACTIVE_HIGH>;
-		reset-gpio = <&gpio3 RK_PA6 GPIO_ACTIVE_HIGH>;
-		irq-gpio = <&gpio3 RK_PC6 IRQ_TYPE_EDGE_FALLING>;
-		cs-gpio = <&gpio1 RK_PD3 GPIO_ACTIVE_HIGH>;
-
-		//pinctrl-0 = <&reset_gpios>,<&irq_gpios>,<&cs_gpios>;
-		//pinctrl-names = "default";
+		irq-gpio = <&gpio3 RK_PD4 IRQ_TYPE_EDGE_FALLING>;
+		pinctrl-0 = <&wk2_irq>;
+		pinctrl-names = "default";
 	};
 };
 
@@ -636,7 +649,6 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	rockchip,hw-tshut-mode = <1>;
 	/* tshut polarity 0:LOW 1:HIGH */
 	rockchip,hw-tshut-polarity = <1>;
-	rockchip,hw-tshut-temp = <110000>;
 	status = "okay";
 };
 
@@ -651,6 +663,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	gpio = <&gpio1 3 GPIO_ACTIVE_HIGH>;
 
 	u2phy0_otg: otg-port {
+	    phy-supply = <&vcc5v0_otg0>;
 		status = "okay";
 	};
 
@@ -664,6 +677,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	status = "okay";
 
 	u2phy1_otg: otg-port {
+	    phy-supply = <&vcc5v0_otg1>;
 		status = "okay";
 	};
 
@@ -734,7 +748,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 	phy-supply = <&vcc_phy>;
 	phy-mode = "rgmii";
 	clock_in_out = "input";
-	snps,reset-gpio = <&gpio3 15 GPIO_ACTIVE_LOW>;
+	snps,reset-gpio = <&gpio3 RK_PB7 GPIO_ACTIVE_LOW>;
 	snps,reset-active-low;
 	snps,reset-delays-us = <0 10000 50000>;
 	assigned-clocks = <&cru SCLK_RMII_SRC>;
@@ -774,88 +788,79 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 
 &pinctrl {
 	pmic {
-
 		pmic_int_l: pmic-int-l {
 			rockchip,pins =
 			    <1 21 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
-
 		pmic_dvs2: pmic-dvs2 {
 			rockchip,pins =
 			    <1 4 RK_FUNC_GPIO &pcfg_pull_down>;
 		};
-
 		vcc5sys_gpio: vcc5sys-gpio {
 			rockchip,pins =
-			    <0x03 0x1d 0x00 0xc1>;
+			    <3 29 RK_FUNC_GPIO &pcfg_output_low>;
 		};
-
 		vcc_4g_gpio: vcc-4g-gpio {
 			rockchip,pins =
-			    <0x00 0x02 0x00 0xbf>;
+			    <0 2 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
-
 	u2phy0_otg {
-
 		otg0_vbus_drv: otg0-vbus-drv {
-			rockchip,pins = <0x01 0x00 0x00 0xbf>;
+			rockchip,pins = <1 0 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
-
 	u2phy1_otg {
-
 		otg1_vbus_drv: otg1-vbus-drv {
-				rockchip,pins = <0x04 0x1d 0x00 0xbf>;
+				rockchip,pins = <4 29 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
-
 	u2phy0_host {
-
 		host0_vbus_drv: host0-vbus-drv {
-			rockchip,pins = <0x04 0x1a 0x00 0xbf>;
+			rockchip,pins = <4 26 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
-
 	u2phy1_host {
-
 		host1_vbus_drv: host1-vbus-drv {
-			rockchip,pins = <0x03 0x1e 0x00 0xbf>;
+			rockchip,pins = <3 30 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
-
 	i2s0 {
-			i2s0-my-bus {
-				rockchip,pins = <0x03 0x18 0x01 0xbf 0x03 0x19 0x01 0xbf 0x03 0x1a 0x01 0xbf 0x03 0x1b 0x01 0xbf 0x03 0x1f 0x01 0xbf>;
+			i2s0_my_bus: i2s0-my-bus {
+				rockchip,pins =
+				    <3 24 RK_FUNC_1 &pcfg_pull_none>,
+				    <3 25 RK_FUNC_1 &pcfg_pull_none>,
+				    <3 26 RK_FUNC_1 &pcfg_pull_none>,
+				    <3 27 RK_FUNC_1 &pcfg_pull_none>,
+				    <3 31 RK_FUNC_1 &pcfg_pull_none>;
 			};
 		};
-
 	wk2 {
-
-		wk2-irq {
-			rockchip,pins = <0x03 0x1c 0x00 0xbd>;
+		wk2_irq: wk2-irq {
+			rockchip,pins = <3 28 RK_FUNC_GPIO &pcfg_pull_up>;
 			};
 	};
-
 	wesine_gpio {
-
-		wesine-pin1-gpio {
-			rockchip,pins = <0x01 0x03 0x00 0xbf 0x01 0x02 0x00 0xbf 0x01 0x04 0x00 0xbf>;
+		wesine_pin1_gpio: wesine-pin1-gpio {
+			rockchip,pins =
+			    <1 3 RK_FUNC_GPIO &pcfg_pull_none>,
+			    <1 2 RK_FUNC_GPIO &pcfg_pull_none>,
+			    <1 4 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
-
-		wesine-pin2-gpio {
-			rockchip,pins = <0x02 0x12 0x00 0xbf>;
+		wesine_pin2_gpio:wesine-pin2-gpio {
+			rockchip,pins = <2 18 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
-
-		wesine-pin4-gpio {
-			rockchip,pins = <0x04 0x1c 0x00 0xbf 0x04 0x1e 0x00 0xbf 0x04 0x15 0x00 0xbf 0x04 0x18 0x00 0xbf>;
+		wesine_pin4_gpio: wesine-pin4-gpio {
+			rockchip,pins =
+			    <4 28 RK_FUNC_GPIO &pcfg_pull_none>,
+			    <4 30 RK_FUNC_GPIO &pcfg_pull_none>,
+			    <4 21 RK_FUNC_GPIO &pcfg_pull_none>,
+			    <4 24 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
-
-	wireless-wlan {
-
-		wifi-pwr-gpio {
-			rockchip,pins = <0x00 0x03 0x00 0xbf>;
+	wireless_wlan {
+		wifi_pwr_gpio: wifi-pwr-gpio {
+			rockchip,pins = <0 3 RK_FUNC_GPIO &pcfg_pull_none>;
 			};
 	};
 };
@@ -866,9 +871,31 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 };
 
 &rockchip_suspend {
+	status = "okay";
+	rockchip,sleep-debug-en = <0>;
+	rockchip,sleep-mode-config = <
+		(0
+		| RKPM_SLP_ARMPD
+		| RKPM_SLP_PERILPPD
+		| RKPM_SLP_DDR_RET
+		| RKPM_SLP_PLLPD
+		| RKPM_SLP_CENTER_PD
+		| RKPM_SLP_AP_PWROFF
+		)
+	>;
+	rockchip,wakeup-config = <
+		(0
+		| RKPM_GPIO_WKUP_EN
+		| RKPM_PWM_WKUP_EN
+		)
+	>;
+	rockchip,pwm-regulator-config = <
+		(0
+		| PWM2_REGULATOR_EN
+		)
+	>;
 	rockchip,power-ctrl =
-		<&gpio1 18 GPIO_ACTIVE_LOW>,
-		<&gpio1 14 GPIO_ACTIVE_HIGH>;
+		<&gpio0 5 GPIO_ACTIVE_HIGH>;
 };
 
 &vopb {
@@ -892,6 +919,7 @@ GPIOs 128-159, platform/pinctrl, gpio4:
 };
 
 &rkvdec {
+    vcodec-supply = <&vdd_log>;
 	status = "okay";
 };
 
