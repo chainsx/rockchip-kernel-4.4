@@ -1,5 +1,31 @@
-/dts-v1/;
+/**
+GPIOs 0-31, platform/pinctrl, gpio0:
+ gpio-2   (                    |vcc_4g              ) out hi    
+ gpio-3   (                    |vcc_wifi            ) out hi    
+ gpio-5   (                    |power               ) in  hi    
 
+GPIOs 32-63, platform/pinctrl, gpio1:
+ gpio-32  (                    |vcc5v0_otg0         ) out hi    
+ gpio-46  (                    |vsel                ) out lo    
+ gpio-49  (                    |vsel                ) out lo    
+ gpio-55  (                    |?                   ) out hi    
+
+GPIOs 64-95, platform/pinctrl, gpio2:
+ gpio-69  (                    |vcc_mipi            ) out hi    
+ gpio-70  (                    |enable              ) out hi    
+
+GPIOs 96-127, platform/pinctrl, gpio3:
+ gpio-125 (                    |vcc5v0_sys          ) out hi    
+ gpio-126 (                    |vcc5v0_host1        ) out hi    
+
+GPIOs 128-159, platform/pinctrl, gpio4:
+ gpio-153 (                    |?                   ) out lo    
+ gpio-154 (                    |vcc5v0_host0        ) out hi    
+ gpio-155 (                    |enable              ) out hi    
+ gpio-157 (                    |vcc5v0_otg1         ) out hi
+**/
+
+/dts-v1/;
 #include <dt-bindings/pwm/pwm.h>
 #include <dt-bindings/input/input.h>
 #include "rk3399.dtsi"
